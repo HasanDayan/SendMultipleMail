@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-posta Ekle</title>
+<th:block th:insert="~{fragments/template :: link}"></th:block>
+<link th:rel="stylesheet" th:href="@{/assets/bootstrap-switch/bootstrap-switch.min.css}" />
+<th:block th:insert="~{fragments/template :: head/script}"></th:block>
+</head>
+<body>
+
+	<div th:replace="~{fragments/template :: navbar}"></div>
+
+	<div class="container mt-5 mb-5">
+
+		<div class="row mb-5">
+			<div class="col-md-6">
+				<form action="#" th:action="@{/epostaEkle}" method="post"
+					th:object="${mailRecord}">
+					<div class="form-group">
+						<label for="mail">E-posta adresi</label>
+						<input type="email" required="required" class="form-control" th:field="*{mail}" placeholder="E-posta giriniz" />
+					</div>
+					<div class="form-group">
+						<label for="mail">Durum</label><br />
+						<input type="checkbox" class="form-control" th:field="*{active}" data-toggle="switch" />
+					</div>
+					<button type="submit" class="btn btn-primary">E-posta Ekle</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<form action="#" th:action="@{/excelEpostaEkle}" method="post"
+					enctype="multipart/form-data">
+					<div class="form-group">
+						<div class="custom-file">
+							<label for="customFile">Excel E-posta Dosyası Seç</label>
+							<input type="file" class="form-control-file" id="customFile" name="file">
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Excel ile	E-posta Ekle</button>
+				</form>
+			</div>
+		</div>
+
+
+		<div th:switch="${message}" class="mt-2 mb-2">
+			<div th:case="'Success'"
+				class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>İşlem başarıyla gerçekleşti</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div th:case="'Failed'"
+				class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>İşlem gerçekleşirken bir hata oluştu!!!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+
+		<div id="paginatedTable" class="mt-5 mb-5">
+			<table class="table table-striped" style="width: 100%">
+				<caption>Mail Listesi</caption>
+				<thead>
+					<tr>
+						<th scope="col">E-posta</th>
+						<th scope="col">Durum</th>
+						<th scope="col">Düzenle</th>
+						<th scope="col">Sil</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+					<tr class="mail" th:each="record : ${mailRecords}">
+						<td th:text="${record.mail}">E-posta</td>
+						<td th:text="${record.active ? 'Aktif' : 'Pasif'}">Aktif</td>
+						<td><a href="#" th:href="@{'/epostaDuzenle/' + ${record.id}}" class="btn btn-secondary">Güncelle</a></td>
+						<td>
+							<a href="#" th:href="@{'/epostaSil/' + ${record.id}}" class="btn btn-danger" 
+								onclick="return confirm('Kaydı simek istediğinize emin misiniz?');">
+								Kaydı Sil
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<ul class="pagination"></ul>
+		</div>
+
+	</div>
+
+	<th:block th:insert="~{fragments/template :: body/script}"></th:block>
+	<script th:src="@{/assets/listjs/js/list.min.js}"></script>
+	<script th:src="@{/assets/bootstrap-switch/bootstrap-switch.min.js}"></script>
+
+	<script type="text/javascript">
+		$('[data-toggle="switch"]').bootstrapSwitch();
+		
+		if ( $('.mail').length > 0 ) {
+			var mailList = new List('paginatedTable', {
+				valueNames : [ 'mail' ],
+				page : 10,
+				pagination : [{
+					paginationClass: "pagination",
+					innerWindow: 1,
+					right:0,
+					left:0
+				}]
+			});
+		}
+	</script>
+
+	<th:block th:insert="~{fragments/template :: footer}"></th:block>
+</body>
+</html>

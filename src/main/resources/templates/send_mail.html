@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-posta Gönder</title>
+<th:block th:insert="~{fragments/template :: link}"></th:block>
+<link th:rel="stylesheet" th:href="@{/assets/richtexteditor/rte_theme_default.css}" />
+<link th:rel="stylesheet" th:href="@{/assets/select2/css/select2.min.css}" />
+<style type="text/css">
+label {
+	width: 100%;
+}
+.select2-container *:focus {
+    outline: none;
+}
+</style>
+<th:block th:insert="~{fragments/template :: head/script}"></th:block>
+</head>
+<body>
+
+	<div th:replace="~{fragments/template :: navbar}"></div>
+
+	<div class="container mt-5 mb-5">
+
+		<form action="#" th:action="@{/epostaGonder}" method="post"	th:object="${emailDTO}">
+			<div class="form-group">
+				<label for="mail">Mail</label> 
+				<select required="required" class="form-control col-md-6" id="mail" name="mail">
+					<option value="all">Tümü</option>
+					<option th:each="mail : ${mailList}" th:value="${mail}" th:text="${mail}">
+					</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="subject">Konu</label>
+				<input type="text" required="required" class="form-control col-md-6" id="subject" name="subject" placeholder="Konu">
+			</div>
+			<div class="form-group">
+				<label for="content">Mesaj</label>
+				<textarea class="form-control" id="content" name="content" placeholder="Mesaj" rows="4"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary"
+				onclick="return confirm('E-posta göndermek istediğinize emin misiniz?');">
+				Tüm	E-posta Adreslerine Gönder
+			</button>
+		</form>
+
+		<div th:switch="${message}" class="mt-2 mb-2">
+			<div th:case="'Success'"
+				class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>E-posta gönderimi başarıyla başlatıldı</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div th:case="'Failed'"
+				class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>E-posta gönderimi başarıyla başlatılamadı!!!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+
+	</div>
+
+	<th:block th:insert="~{fragments/template :: body/script}"></th:block>
+	<script th:src="@{/assets/richtexteditor/rte.js}"></script>
+	<script th:src="@{/assets/richtexteditor/lang/rte-lang-tr.js}"></script>
+	<script th:src='@{/assets/richtexteditor/plugins/all_plugins.js}'></script>
+	<script th:src="@{/assets/select2/js/select2.min.js}"></script>
+
+	<script type="text/javascript">
+		var contentEditor = new RichTextEditor("#content");
+		
+		$('select').select2({
+			minimumInputLength: 3
+		});
+	</script>
+
+	<th:block th:insert="~{fragments/template :: footer}"></th:block>
+</body>
+</html>
