@@ -71,8 +71,10 @@ label {
 	<script th:src='@{/assets/richtexteditor/plugins/all_plugins.js}'></script>
 	<script th:src="@{/assets/select2/js/select2.min.js}"></script>
 
-	<script type="text/javascript">
-		var contentEditor = new RichTextEditor("#content");
+	<script type="text/javascript">	
+		var editor2cfg = {}
+		editor2cfg.toolbar = "basic";
+		var editor2 = new RichTextEditor("#content", editor2cfg);
 		
 		$('select').select2({
 			minimumInputLength: 3

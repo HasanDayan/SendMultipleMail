@@ -1,42 +1,14 @@
 package com.hd.project.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.hd.project.model.MailRecord;
-import com.hd.project.repository.MailRecordRepository;
+import com.hd.project.util.CrudImplements;
 
-@Service
-public class MailRecordService {
+public interface MailRecordService extends CrudImplements<MailRecord> {
 
-	@Autowired
-	private MailRecordRepository mailRecordRepository;
+	List<MailRecord> findByActive(boolean active);
 
-	public Iterable<MailRecord> findAll() {
-		return mailRecordRepository.findAll();
-	}
-
-	public List<MailRecord> findByActive(boolean active) {
-		return mailRecordRepository.findByActive(active);
-	}
-
-	public Optional<MailRecord> findById(Long id) {
-		return mailRecordRepository.findById(id);
-	}
-
-	public void save(MailRecord mailRecord) {
-		mailRecordRepository.save(mailRecord);
-	}
-
-	public void deleteById(Long id) {
-		mailRecordRepository.deleteById(id);
-	}
-
-	public List<MailRecord> findByMail(String mail) {
-		return mailRecordRepository.findByMail(mail);
-	}
+	List<MailRecord> findByMail(String mail);
 
 }
