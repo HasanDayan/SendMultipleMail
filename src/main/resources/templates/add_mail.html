@@ -66,19 +66,19 @@
 
 		<div id="paginatedTable" class="mt-5 mb-5">
 			<table class="table table-striped" style="width: 100%">
-				<caption>Mail Listesi</caption>
+				<caption>E-posta Listesi</caption>
 				<thead>
 					<tr>
-						<th scope="col">E-posta</th>
-						<th scope="col">Durum</th>
+						<th scope="col" class="sort" data-sort="mail">E-posta</th>
+						<th scope="col" class="sort" data-sort="state">Durum</th>
 						<th scope="col">Düzenle</th>
 						<th scope="col">Sil</th>
 					</tr>
 				</thead>
 				<tbody class="list">
 					<tr class="mail" th:each="record : ${mailRecords}">
-						<td th:text="${record.mail}">E-posta</td>
-						<td th:text="${record.active ? 'Aktif' : 'Pasif'}">Aktif</td>
+						<td class="mail" th:text="${record.mail}">E-posta</td>
+						<td class="state" th:text="${record.active ? 'Aktif' : 'Pasif'}">Aktif</td>
 						<td><a href="#" th:href="@{'/epostaDuzenle/' + ${record.id}}" class="btn btn-secondary">Güncelle</a></td>
 						<td>
 							<a href="#" th:href="@{'/epostaSil/' + ${record.id}}" class="btn btn-danger" 
@@ -103,7 +103,7 @@
 		
 		if ( $('.mail').length > 0 ) {
 			var mailList = new List('paginatedTable', {
-				valueNames : [ 'mail' ],
+				valueNames : [ 'mail', 'state' ],
 				page : 10,
 				pagination : [{
 					paginationClass: "pagination",

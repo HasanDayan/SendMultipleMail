@@ -18,8 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hd.project.batch.SendMailProcessor;
 import com.hd.project.dto.EmailDTO;
 import com.hd.project.model.MailRecord;
+import com.hd.project.model.SentMail;
 import com.hd.project.service.MailPropertiesService;
 import com.hd.project.service.MailRecordService;
+import com.hd.project.service.SentMailService;
 
 @Controller
 public class SendMailController {
@@ -31,6 +33,9 @@ public class SendMailController {
 
 	@Autowired
 	private MailPropertiesService mailPropertiesService;
+	
+	@Autowired
+	private SentMailService sentMailService;
 
 	@GetMapping("/epostaGonder")
 	public String getSendMail(Model model) {
@@ -64,6 +69,12 @@ public class SendMailController {
 			}
 
 			executorService.shutdown();
+			
+			SentMail sentMail = new SentMail();
+			sentMail.setSubject(emailDTO.getSubject());
+			sentMail.setContent(emailDTO.getContent());
+			
+			sentMailService.save(sentMail);
 
 			LOGGER.info("E-posta gonderimi basariyla baslatildi");
 			redirectAttributes.addFlashAttribute("message", "Success");

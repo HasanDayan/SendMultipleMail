@@ -38,7 +38,7 @@ public class SendMailProcessor implements Runnable {
 
 	@Override
 	public void run() {
-		LOGGER.info("{} icin mail gonderiliyor...\n", mail);
+		LOGGER.info("{} icin mail gonderiliyor...", mail);
 
 		List<MailProperties> mailProperties = (List<MailProperties>) mailPropertiesService.findAll();
 
@@ -67,7 +67,7 @@ public class SendMailProcessor implements Runnable {
 			transport.sendMessage(message, message.getAllRecipients());
 			transport.close();
 			
-			LOGGER.info("{} icin mail gonderildi!!!\n", mail);
+			LOGGER.info("{} icin mail gonderildi!!!", mail);
 		} catch (AddressException ae) {
 			LOGGER.error(ERROR_LOG_FORMAT, mail);
 			ae.printStackTrace();
