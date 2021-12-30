@@ -1,7 +1,7 @@
 # SendMultipleMail
 Send Multiple Mail using Spring Boot
 
-Thymeleaf,
+# Thymeleaf,
 Crud Repsitory (Spring Data JPA),
 Bootstrap Switch,
 Select2,
