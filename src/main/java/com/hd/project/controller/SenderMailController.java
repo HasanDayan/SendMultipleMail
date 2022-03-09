@@ -2,9 +2,9 @@ package com.hd.project.controller;
 
 import java.util.List;
 
+import com.hd.project.service.MailPropertiesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +14,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hd.project.dto.MailPropertiesDTO;
 import com.hd.project.model.MailProperties;
-import com.hd.project.service.MailPropertiesService;
 
 @Controller
 public class SenderMailController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SenderMailController.class);
 
-	@Autowired
-	private MailPropertiesService mailPropertiesService;
+	private final MailPropertiesService mailPropertiesService;
+
+	public SenderMailController(MailPropertiesService mailPropertiesService) {
+		this.mailPropertiesService = mailPropertiesService;
+	}
 
 	@GetMapping("/epostaBilgileri")
 	public String getSenderMail(Model model) {
-		List<MailProperties> mailProperties = (List<MailProperties>) mailPropertiesService.findAll();
+		List<MailProperties> mailProperties = mailPropertiesService.findAll();
 
 		if (mailProperties.isEmpty()) {
 			model.addAttribute("mailPropertiesDTO", new MailPropertiesDTO());
@@ -50,6 +52,7 @@ public class SenderMailController {
 	public String postSenderMail(@ModelAttribute("mailPropertiesDTO") MailPropertiesDTO mailPropertiesDTO,
 			RedirectAttributes redirectAttributes) {
 
+		String returnURL = "/epostaBilgileri";
 		try {
 			MailProperties properties = new MailProperties();
 
@@ -73,7 +76,7 @@ public class SenderMailController {
 			redirectAttributes.addFlashAttribute("message", "Failed");
 		}
 
-		return "redirect:/epostaBilgileri";
+		return returnURL;
 	}
 
 }

@@ -2,19 +2,19 @@ package com.hd.project.batch;
 
 import java.util.List;
 
+import com.hd.project.service.MailRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hd.project.model.MailRecord;
-import com.hd.project.service.MailRecordService;
 
 public class SaveMailProcessor implements Runnable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SaveMailProcessor.class);
 
-	private MailRecordService mailRecordService;
+	private final MailRecordService mailRecordService;
 
-	private String mail;
+	private final String mail;
 
 	public SaveMailProcessor(MailRecordService mailRecordService, String mail) {
 		this.mailRecordService = mailRecordService;

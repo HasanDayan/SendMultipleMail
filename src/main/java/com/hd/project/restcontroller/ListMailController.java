@@ -1,17 +1,19 @@
 package com.hd.project.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hd.project.service.MailRecordService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hd.project.model.MailRecord;
-import com.hd.project.service.MailRecordService;
 
 @RestController
 public class ListMailController {
 
-	@Autowired
-	private MailRecordService mailRecordService;
+	private final MailRecordService mailRecordService;
+
+	public ListMailController(MailRecordService mailRecordService) {
+		this.mailRecordService = mailRecordService;
+	}
 
 	@GetMapping("/epostaListele")
 	public Iterable<MailRecord> getListMail() {

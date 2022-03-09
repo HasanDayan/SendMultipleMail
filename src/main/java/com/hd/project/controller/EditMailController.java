@@ -1,10 +1,11 @@
 package com.hd.project.controller;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.hd.project.service.MailRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hd.project.dto.MailRecordDTO;
 import com.hd.project.model.MailRecord;
-import com.hd.project.service.MailRecordService;
 
 @Controller
 public class EditMailController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EditMailController.class);
 
-	@Autowired
-	private MailRecordService mailRecordService;
+	private final MailRecordService mailRecordService;
+
+	public EditMailController(MailRecordService mailRecordService) {
+		this.mailRecordService = mailRecordService;
+	}
 
 	@GetMapping("/epostaDuzenle/{id}")
 	public String getAddMail(@PathVariable("id") Long id, Model model) {
@@ -55,6 +58,7 @@ public class EditMailController {
 				MailRecord mailRecord = optionalMailRecord.get();
 				mailRecord.setMail(mailRecordDTO.getMail());
 				mailRecord.setActive(mailRecordDTO.isActive());
+				mailRecord.setUpdateDate(LocalDateTime.now());
 
 				mailRecordService.save(mailRecord);
 			}

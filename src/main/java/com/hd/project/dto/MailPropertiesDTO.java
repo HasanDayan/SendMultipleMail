@@ -47,13 +47,5 @@ public class MailPropertiesDTO {
 	public void setPort(String port) {
 		this.port = port;
 	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MailPropertiesDTO [id=").append(id).append(", host=").append(host).append(", from=")
-				.append(from).append(", password=").append(password).append(", port=").append(port).append("]");
-		return builder.toString();
-	}
 
 }

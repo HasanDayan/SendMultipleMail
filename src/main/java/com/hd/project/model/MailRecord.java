@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
 @Table
 public class MailRecord extends BaseModel {
@@ -47,12 +46,4 @@ public class MailRecord extends BaseModel {
 		this.active = active;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MailRecord [id=").append(id).append(", mail=").append(mail).append(", active=").append(active)
-				.append("]");
-		return builder.toString();
-	}
-	
 }

@@ -3,6 +3,7 @@ package com.hd.project.controller;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.hd.project.service.MailRecordService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -10,7 +11,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hd.project.batch.SaveMailProcessor;
 import com.hd.project.dto.MailRecordDTO;
 import com.hd.project.model.MailRecord;
-import com.hd.project.service.MailRecordService;
 
 @Controller
 public class AddMailController {
@@ -33,8 +32,11 @@ public class AddMailController {
 	private static final String REDIRECT_PAGE = "redirect:/epostaIslemleri";
 	private static final String REDIRECT_ATTR_NAME = "message";
 
-	@Autowired
-	private MailRecordService mailRecordService;
+	private final MailRecordService mailRecordService;
+
+	public AddMailController(MailRecordService mailRecordService) {
+		this.mailRecordService = mailRecordService;
+	}
 
 	@GetMapping("/epostaIslemleri")
 	public String getAddMail(Model model) {

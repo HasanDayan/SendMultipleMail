@@ -30,12 +30,4 @@ public class EmailDTO {
 		this.content = content;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("EmailDTO [mail=").append(mail).append(", subject=").append(subject).append(", content=")
-				.append(content).append("]");
-		return builder.toString();
-	}
-
 }

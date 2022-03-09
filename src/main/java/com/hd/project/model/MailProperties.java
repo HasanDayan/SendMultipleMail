@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
 @Table
 public class MailProperties extends BaseModel {
@@ -67,15 +66,6 @@ public class MailProperties extends BaseModel {
 
 	public void setSmtpPort(String smtpPort) {
 		this.smtpPort = smtpPort;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MailProperties [id=").append(id).append(", smtpHost=").append(smtpHost).append(", senderMail=")
-				.append(senderMail).append(", senderMailPassword=").append(senderMailPassword).append(", smtpPort=")
-				.append(smtpPort).append("]");
-		return builder.toString();
 	}
 
 }

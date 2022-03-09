@@ -30,12 +30,4 @@ public class MailRecordDTO {
 		this.active = active;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MailRecordDTO [id=").append(id).append(", mail=").append(mail).append(", active=")
-				.append(active).append("]");
-		return builder.toString();
-	}
-
 }

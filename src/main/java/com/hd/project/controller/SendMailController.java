@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.hd.project.service.MailPropertiesService;
+import com.hd.project.service.MailRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,19 +19,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hd.project.batch.SendMailProcessor;
 import com.hd.project.dto.EmailDTO;
 import com.hd.project.model.MailRecord;
-import com.hd.project.service.MailPropertiesService;
-import com.hd.project.service.MailRecordService;
 
 @Controller
 public class SendMailController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendMailController.class);
 
-	@Autowired
-	private MailRecordService mailRecordService;
+	private final MailRecordService mailRecordService;
 
-	@Autowired
-	private MailPropertiesService mailPropertiesService;
+	private final MailPropertiesService mailPropertiesService;
+
+	public SendMailController(MailRecordService mailRecordService, MailPropertiesService mailPropertiesService) {
+		this.mailRecordService = mailRecordService;
+		this.mailPropertiesService = mailPropertiesService;
+	}
 
 	@GetMapping("/epostaGonder")
 	public String getSendMail(Model model) {
@@ -47,6 +49,7 @@ public class SendMailController {
 	@PostMapping("/epostaGonder")
 	public String postSendMail(@ModelAttribute("emailDTO") EmailDTO emailDTO, RedirectAttributes redirectAttributes) {
 
+		String returnURL = "redirect:/epostaGonder";
 		try {
 			ExecutorService executorService = Executors.newFixedThreadPool(4);
 			
@@ -73,7 +76,7 @@ public class SendMailController {
 			redirectAttributes.addFlashAttribute("message", "Failed");
 		}
 
-		return "redirect:/epostaGonder";
+		return returnURL;
 	}
 
 }
